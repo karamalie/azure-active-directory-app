@@ -44,6 +44,28 @@
         "isEnabled": true,
         "origin": "Application",
         "value": "Writer"
+      },
+      {
+        "allowedMemberTypes": [
+          "User"
+        ],
+        "description": "Employee ",
+        "displayName": "Employee",
+        "id": "41e10148-16a8-432a-b86d-ef620c3e48ef",
+        "isEnabled": true,
+        "origin": "Application",
+        "value": "Employee"
+      },
+      {
+        "allowedMemberTypes": [
+          "User"
+        ],
+        "description": "Agent",
+        "displayName": "Agent",
+        "id": "71e10148-16a8-432a-b86d-ef620c3e48ef",
+        "isEnabled": true,
+        "origin": "Application",
+        "value": "Agent"
       }
     ],
   "availableToOtherTenants": false,
