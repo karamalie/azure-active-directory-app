@@ -1,84 +1,78 @@
 {
   "appId": "d322d1f1-151e-4840-8fcd-434ea21ee9a2",
   "appRoles": [
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Admins can manage roles and perform all task actions.",
-        "displayName": "Admin",
-        "id": "81e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Admin"
-      },
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Approver can ",
-        "displayName": "Approver",
-        "id": "91e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Approver"
-      },
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Observer can ",
-        "displayName": "Observer",
-        "id": "51e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Observer"
-      },
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Writer can",
-        "displayName": "Writer",
-        "id": "61e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Writer"
-      },
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Employee ",
-        "displayName": "Employee",
-        "id": "41e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Employee"
-      },
-      {
-        "allowedMemberTypes": [
-          "User"
-        ],
-        "description": "Agent",
-        "displayName": "Agent",
-        "id": "71e10148-16a8-432a-b86d-ef620c3e48ef",
-        "isEnabled": true,
-        "origin": "Application",
-        "value": "Agent"
-      }
-    ],
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Agent",
+      "displayName": "Agent",
+      "id": "71e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Agent"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Employee ",
+      "displayName": "Employee",
+      "id": "41e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Employee"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Writer can",
+      "displayName": "Writer",
+      "id": "61e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Writer"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Observer can ",
+      "displayName": "Observer",
+      "id": "51e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Observer"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Approver can ",
+      "displayName": "Approver",
+      "id": "91e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Approver"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "description": "Admins can manage roles and perform all task actions.",
+      "displayName": "Admin",
+      "id": "81e10148-16a8-432a-b86d-ef620c3e48ef",
+      "isEnabled": true,
+      "value": "Admin"
+    }
+  ],
   "availableToOtherTenants": false,
-  "displayName": "tasktracker",
+  "displayName": "ddac_assignment",
   "errorUrl": null,
   "groupMembershipClaims": null,
-  "homepage": "https://localhost:44322/",
+  "homepage": "https://ddac-assignment.azurewebsites.net/",
   "identifierUris": [
-    "https://assignment_activedirectory/tasktracker"
+    "https://assignment_activedirectory/ddac_assignment"
   ],
   "keyCredentials": [],
   "knownClientApplications": [],
-  "logoutUrl": "https://localhost:44322/Account/EndSession",
+  "logoutUrl": "https://ddac-assignment.azurewebsites.net/Account/EndSession",
   "oauth2AllowImplicitFlow": false,
   "oauth2AllowUrlPathMatching": false,
   "oauth2Permissions": [
@@ -97,7 +91,7 @@
   "passwordCredentials": [],
   "publicClient": null,
   "replyUrls": [
-    "https://localhost:44322/"
+    "https://ddac-assignment.azurewebsites.net/"
   ],
   "requiredResourceAccess": [
     {
