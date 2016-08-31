@@ -10,8 +10,10 @@ using DdacAssignment;
 
 namespace DdacAssignment.Controllers
 {
+     
     public class CustomersController : Controller
-    {
+    {   
+      
         private ERDContainer db = new ERDContainer();
 
         // GET: Customers
