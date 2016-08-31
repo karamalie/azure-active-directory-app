@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ERD.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ERDStoreContainer">
+    <EntitySet Name="Schedules" EntityType="ERD.Store.Schedules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="ERD.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Shipments" EntityType="ERD.Store.Shipments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ships" EntityType="ERD.Store.Ships" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Yards" EntityType="ERD.Store.Yards" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Fleets" EntityType="ERD.Store.Fleets" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ShipmentCustomer" Association="ERD.Store.ShipmentCustomer">
+      <End Role="Shipment" EntitySet="Shipments" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="ShipmentYard" Association="ERD.Store.ShipmentYard">
+      <End Role="Shipment" EntitySet="Shipments" />
+      <End Role="Yard" EntitySet="Yards" />
+    </AssociationSet>
+    <AssociationSet Name="ShipmentShip" Association="ERD.Store.ShipmentShip">
+      <End Role="Shipment" EntitySet="Shipments" />
+      <End Role="Ship" EntitySet="Ships" />
+    </AssociationSet>
+    <AssociationSet Name="ShipSchedule" Association="ERD.Store.ShipSchedule">
+      <End Role="Ship" EntitySet="Ships" />
+      <End Role="Schedule" EntitySet="Schedules" />
+    </AssociationSet>
+    <AssociationSet Name="FleetShip" Association="ERD.Store.FleetShip">
+      <End Role="Ship" EntitySet="Ships" />
+      <End Role="Fleet" EntitySet="Fleets" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Schedules">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="departure_time" Type="datetime" Nullable="false" />
+    <Property Name="arrival_time" Type="datetime" Nullable="false" />
+    <Property Name="destination" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ShipId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="company_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="contact_number" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Shipments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="insured_value" Type="int" Nullable="false" />
+    <Property Name="weight" Type="int" Nullable="false" />
+    <Property Name="destination" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="YardId" Type="int" Nullable="false" />
+    <Property Name="ShipId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ships">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="max_load" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FleetId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Yards">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="yard_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="port" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Fleets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fleet_name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="ShipmentCustomer">
+    <End Role="Shipment" Type="ERD.Store.Shipments" Multiplicity="*" />
+    <End Role="Customer" Type="ERD.Store.Customers" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShipmentYard">
+    <End Role="Shipment" Type="ERD.Store.Shipments" Multiplicity="*" />
+    <End Role="Yard" Type="ERD.Store.Yards" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Yard">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="YardId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShipmentShip">
+    <End Role="Shipment" Type="ERD.Store.Shipments" Multiplicity="*" />
+    <End Role="Ship" Type="ERD.Store.Ships" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Ship">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="ShipId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ShipSchedule">
+    <End Role="Ship" Type="ERD.Store.Ships" Multiplicity="1" />
+    <End Role="Schedule" Type="ERD.Store.Schedules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ship">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Schedule">
+        <PropertyRef Name="ShipId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FleetShip">
+    <End Role="Ship" Type="ERD.Store.Ships" Multiplicity="*" />
+    <End Role="Fleet" Type="ERD.Store.Fleets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Fleet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Ship">
+        <PropertyRef Name="FleetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ERD" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ERDContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Schedules" EntityType="ERD.Schedule" />
+          <EntitySet Name="Customers" EntityType="ERD.Customer" />
+          <EntitySet Name="Shipments" EntityType="ERD.Shipment" />
+          <EntitySet Name="Ships" EntityType="ERD.Ship" />
+          <EntitySet Name="Yards" EntityType="ERD.Yard" />
+          <EntitySet Name="Fleets" EntityType="ERD.Fleet" />
+          <AssociationSet Name="ShipmentCustomer" Association="ERD.ShipmentCustomer">
+            <End Role="Shipment" EntitySet="Shipments" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="ShipmentYard" Association="ERD.ShipmentYard">
+            <End Role="Shipment" EntitySet="Shipments" />
+            <End Role="Yard" EntitySet="Yards" />
+          </AssociationSet>
+          <AssociationSet Name="ShipmentShip" Association="ERD.ShipmentShip">
+            <End Role="Shipment" EntitySet="Shipments" />
+            <End Role="Ship" EntitySet="Ships" />
+          </AssociationSet>
+          <AssociationSet Name="ShipSchedule" Association="ERD.ShipSchedule">
+            <End Role="Ship" EntitySet="Ships" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FleetShip" Association="ERD.FleetShip">
+            <End Role="Ship" EntitySet="Ships" />
+            <End Role="Fleet" EntitySet="Fleets" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departure_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="arrival_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ship" Relationship="ERD.ShipSchedule" FromRole="Schedule" ToRole="Ship" />
+          <Property Name="ShipId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="company_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact_number" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shipments" Relationship="ERD.ShipmentCustomer" FromRole="Customer" ToRole="Shipment" />
+        </EntityType>
+        <EntityType Name="Shipment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="insured_value" Type="Int32" Nullable="false" />
+          <Property Name="weight" Type="Int32" Nullable="false" />
+          <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="ERD.ShipmentCustomer" FromRole="Shipment" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Yard" Relationship="ERD.ShipmentYard" FromRole="Shipment" ToRole="Yard" />
+          <Property Name="YardId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ship" Relationship="ERD.ShipmentShip" FromRole="Shipment" ToRole="Ship" />
+          <Property Name="ShipId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ship">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="max_load" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shipments" Relationship="ERD.ShipmentShip" FromRole="Ship" ToRole="Shipment" />
+          <NavigationProperty Name="Schedules" Relationship="ERD.ShipSchedule" FromRole="Ship" ToRole="Schedule" />
+          <NavigationProperty Name="Fleet" Relationship="ERD.FleetShip" FromRole="Ship" ToRole="Fleet" />
+          <Property Name="FleetId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Yard">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="yard_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="port" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Shipments" Relationship="ERD.ShipmentYard" FromRole="Yard" ToRole="Shipment" />
+        </EntityType>
+        <EntityType Name="Fleet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fleet_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ships" Relationship="ERD.FleetShip" FromRole="Fleet" ToRole="Ship" />
+        </EntityType>
+        <Association Name="ShipmentCustomer">
+          <End Type="ERD.Shipment" Role="Shipment" Multiplicity="*" />
+          <End Type="ERD.Customer" Role="Customer" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shipment">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShipmentYard">
+          <End Type="ERD.Shipment" Role="Shipment" Multiplicity="*" />
+          <End Type="ERD.Yard" Role="Yard" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Yard">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shipment">
+              <PropertyRef Name="YardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShipmentShip">
+          <End Type="ERD.Shipment" Role="Shipment" Multiplicity="*" />
+          <End Type="ERD.Ship" Role="Ship" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Ship">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Shipment">
+              <PropertyRef Name="ShipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ShipSchedule">
+          <End Type="ERD.Ship" Role="Ship" Multiplicity="1" />
+          <End Type="ERD.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ship">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ShipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FleetShip">
+          <End Type="ERD.Ship" Role="Ship" Multiplicity="*" />
+          <End Type="ERD.Fleet" Role="Fleet" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Fleet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ship">
+              <PropertyRef Name="FleetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ERDStoreContainer" CdmEntityContainer="ERDContainer">
+    <EntitySetMapping Name="Schedules">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Schedule)">
+        <MappingFragment StoreEntitySet="Schedules">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="departure_time" ColumnName="departure_time" />
+          <ScalarProperty Name="arrival_time" ColumnName="arrival_time" />
+          <ScalarProperty Name="destination" ColumnName="destination" />
+          <ScalarProperty Name="ShipId" ColumnName="ShipId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="company_name" ColumnName="company_name" />
+          <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shipments">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Shipment)">
+        <MappingFragment StoreEntitySet="Shipments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="insured_value" ColumnName="insured_value" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+          <ScalarProperty Name="destination" ColumnName="destination" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="YardId" ColumnName="YardId" />
+          <ScalarProperty Name="ShipId" ColumnName="ShipId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ships">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Ship)">
+        <MappingFragment StoreEntitySet="Ships">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="max_load" ColumnName="max_load" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="FleetId" ColumnName="FleetId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Yards">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Yard)">
+        <MappingFragment StoreEntitySet="Yards">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="yard_name" ColumnName="yard_name" />
+          <ScalarProperty Name="port" ColumnName="port" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fleets">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Fleet)">
+        <MappingFragment StoreEntitySet="Fleets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="fleet_name" ColumnName="fleet_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
