@@ -1,0 +1,50 @@
+﻿@model DdacAssignment.Schedule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Schedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.departure_time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.departure_time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.arrival_time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.arrival_time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.destination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.destination)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ship.max_load)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ship.max_load)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
