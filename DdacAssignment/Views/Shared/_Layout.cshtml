@@ -22,11 +22,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("DDAC", "Index", "Home", null, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                   
+                    <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
+                    <li>@Html.ActionLink("Shipments", "Index", "Shipments")</li>
+                    <li>@Html.ActionLink("Schedules", "Index", "Schedules")</li>
+                    <li>@Html.ActionLink("Ships", "Index", "Ships")</li>
+                    <li>@Html.ActionLink("Fleets", "Index", "Fleets")</li>
+                    <li>@Html.ActionLink("Yards", "Index", "Yards")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                  
 
@@ -39,7 +45,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; maersk cms by karamalie </p>
         </footer>
     </div>
 </body>

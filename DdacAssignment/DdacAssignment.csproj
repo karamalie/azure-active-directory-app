@@ -236,8 +236,19 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\business-frontpage.css" />
+    <Content Include="Content\delivery.png" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\globe.jpg" />
+    <Content Include="Content\tracking.jpg" />
+    <Content Include="Scripts\google-map.js" />
+    <Content Include="Scripts\headroom.min.js" />
+    <Content Include="Scripts\html5shiv.js" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Scripts\jQuery.headroom.min.js" />
+    <Content Include="Content\main.css" />
     <Content Include="Content\my-jquery-ui.css" />
+    <Content Include="Scripts\template.js" />
     <Content Include="ERD.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ERD.Context.cs</LastGenOutput>
