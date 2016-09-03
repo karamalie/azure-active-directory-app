@@ -12,22 +12,16 @@ namespace DdacAssignment
     using System;
     using System.Collections.Generic;
     
-    public partial class Shipment
+    public partial class Payment
     {
         public int Id { get; set; }
+        public string Amount { get; set; }
         public string type { get; set; }
-        public int insured_value { get; set; }
-        public int weight { get; set; }
-        public string destination { get; set; }
-        public string status { get; set; }
-        public int CustomerId { get; set; }
-        public int YardId { get; set; }
-        public int ShipId { get; set; }
-        public string payment_status { get; set; }
+        public string cardholder_name { get; set; }
+        public string card_number { get; set; }
+        public string expiration_date { get; set; }
+        public string card_cvv { get; set; }
     
-        public virtual Customer Customer { get; set; }
-        public virtual Yard Yard { get; set; }
-        public virtual Ship Ship { get; set; }
-        public virtual Payment Payment { get; set; }
+        public virtual Shipment Shipment { get; set; }
     }
 }

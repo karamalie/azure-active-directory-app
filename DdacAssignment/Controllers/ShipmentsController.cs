@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DdacAssignment;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace DdacAssignment.Controllers
 {
@@ -41,7 +43,7 @@ namespace DdacAssignment.Controllers
         {
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "name");
             ViewBag.YardId = new SelectList(db.Yards, "Id", "yard_name");
-            ViewBag.ShipId = new SelectList(db.Ships, "Id", "max_load");
+            ViewBag.ShipId = new SelectList(db.Ships, "Id", "name");
             return View();
         }
 
@@ -50,19 +52,23 @@ namespace DdacAssignment.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,type,insured_value,weight,destination,status,CustomerId,YardId,ShipId")] Shipment shipment)
+        public ActionResult Create([Bind(Include = "Id,type,insured_value,weight,destination,status,CustomerId,YardId,ShipId,payment_status")] Shipment shipment)
         {
             if (ModelState.IsValid)
             {
-                db.Shipments.Add(shipment);
+               db.Shipments.Add(shipment);          
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                int id = shipment.Id;
+
+                //   return RedirectToAction("Index");
+                return RedirectToAction("Create", "Payments", new { shipmentid = id});
             }
 
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "name", shipment.CustomerId);
             ViewBag.YardId = new SelectList(db.Yards, "Id", "yard_name", shipment.YardId);
-            ViewBag.ShipId = new SelectList(db.Ships, "Id", "max_load", shipment.ShipId);
+            ViewBag.ShipId = new SelectList(db.Ships, "Id", "name", shipment.ShipId);
             return View(shipment);
+          
         }
 
         // GET: Shipments/Edit/5
@@ -79,7 +85,7 @@ namespace DdacAssignment.Controllers
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "name", shipment.CustomerId);
             ViewBag.YardId = new SelectList(db.Yards, "Id", "yard_name", shipment.YardId);
-            ViewBag.ShipId = new SelectList(db.Ships, "Id", "max_load", shipment.ShipId);
+            ViewBag.ShipId = new SelectList(db.Ships, "Id", "name", shipment.ShipId);
             return View(shipment);
         }
 
@@ -88,7 +94,7 @@ namespace DdacAssignment.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,type,insured_value,weight,destination,status,CustomerId,YardId,ShipId")] Shipment shipment)
+        public ActionResult Edit([Bind(Include = "Id,type,insured_value,weight,destination,status,CustomerId,YardId,ShipId,payment_status")] Shipment shipment)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +104,7 @@ namespace DdacAssignment.Controllers
             }
             ViewBag.CustomerId = new SelectList(db.Customers, "Id", "name", shipment.CustomerId);
             ViewBag.YardId = new SelectList(db.Yards, "Id", "yard_name", shipment.YardId);
-            ViewBag.ShipId = new SelectList(db.Ships, "Id", "max_load", shipment.ShipId);
+            ViewBag.ShipId = new SelectList(db.Ships, "Id", "name", shipment.ShipId);
             return View(shipment);
         }
 

@@ -12,6 +12,7 @@
     <EntitySet Name="Ships" EntityType="ERD.Store.Ships" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Yards" EntityType="ERD.Store.Yards" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Fleets" EntityType="ERD.Store.Fleets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Payments" EntityType="ERD.Store.Payments" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ShipmentCustomer" Association="ERD.Store.ShipmentCustomer">
       <End Role="Shipment" EntitySet="Shipments" />
       <End Role="Customer" EntitySet="Customers" />
@@ -31,6 +32,10 @@
     <AssociationSet Name="FleetShip" Association="ERD.Store.FleetShip">
       <End Role="Ship" EntitySet="Ships" />
       <End Role="Fleet" EntitySet="Fleets" />
+    </AssociationSet>
+    <AssociationSet Name="PaymentShipment" Association="ERD.Store.PaymentShipment">
+      <End Role="Payment" EntitySet="Payments" />
+      <End Role="Shipment" EntitySet="Shipments" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Schedules">
@@ -61,10 +66,11 @@
     <Property Name="insured_value" Type="int" Nullable="false" />
     <Property Name="weight" Type="int" Nullable="false" />
     <Property Name="destination" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="status" Type="int" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CustomerId" Type="int" Nullable="false" />
     <Property Name="YardId" Type="int" Nullable="false" />
     <Property Name="ShipId" Type="int" Nullable="false" />
+    <Property Name="payment_status" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Ships">
     <Key>
@@ -89,6 +95,19 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fleet_name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Payments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Amount" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="cardholder_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="card_number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="expiration_date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="card_cvv" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Shipment_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ShipmentCustomer">
     <End Role="Shipment" Type="ERD.Store.Shipments" Multiplicity="*" />
@@ -150,6 +169,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PaymentShipment">
+    <End Role="Payment" Type="ERD.Store.Payments" Multiplicity="*" />
+    <End Role="Shipment" Type="ERD.Store.Shipments" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Shipment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Payment">
+        <PropertyRef Name="Shipment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -180,6 +211,11 @@
           <AssociationSet Name="FleetShip" Association="ERD.FleetShip">
             <End Role="Ship" EntitySet="Ships" />
             <End Role="Fleet" EntitySet="Fleets" />
+          </AssociationSet>
+          <EntitySet Name="Payments" EntityType="ERD.Payment" />
+          <AssociationSet Name="PaymentShipment" Association="ERD.PaymentShipment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Shipment" EntitySet="Shipments" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Schedule">
@@ -212,13 +248,15 @@
           <Property Name="insured_value" Type="Int32" Nullable="false" />
           <Property Name="weight" Type="Int32" Nullable="false" />
           <Property Name="destination" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="ERD.ShipmentCustomer" FromRole="Shipment" ToRole="Customer" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Yard" Relationship="ERD.ShipmentYard" FromRole="Shipment" ToRole="Yard" />
           <Property Name="YardId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Ship" Relationship="ERD.ShipmentShip" FromRole="Shipment" ToRole="Ship" />
           <Property Name="ShipId" Type="Int32" Nullable="false" />
+          <Property Name="payment_status" Type="String" Nullable="false" />
+          <NavigationProperty Name="Payment" Relationship="ERD.PaymentShipment" FromRole="Shipment" ToRole="Payment" />
         </EntityType>
         <EntityType Name="Ship">
           <Key>
@@ -309,6 +347,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="String" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" />
+          <Property Name="cardholder_name" Type="String" Nullable="false" />
+          <Property Name="card_number" Type="String" Nullable="false" />
+          <Property Name="expiration_date" Type="String" Nullable="false" />
+          <Property Name="card_cvv" Type="String" Nullable="false" />
+          <NavigationProperty Name="Shipment" Relationship="ERD.PaymentShipment" FromRole="Payment" ToRole="Shipment" />
+        </EntityType>
+        <Association Name="PaymentShipment">
+          <End Type="ERD.Payment" Role="Payment" Multiplicity="0..1" />
+          <End Type="ERD.Shipment" Role="Shipment" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -348,6 +403,7 @@
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="YardId" ColumnName="YardId" />
           <ScalarProperty Name="ShipId" ColumnName="ShipId" />
+          <ScalarProperty Name="payment_status" ColumnName="payment_status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -378,6 +434,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Payments">
+      <EntityTypeMapping TypeName="IsTypeOf(ERD.Payment)">
+        <MappingFragment StoreEntitySet="Payments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="cardholder_name" ColumnName="cardholder_name" />
+          <ScalarProperty Name="card_number" ColumnName="card_number" />
+          <ScalarProperty Name="expiration_date" ColumnName="expiration_date" />
+          <ScalarProperty Name="card_cvv" ColumnName="card_cvv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PaymentShipment" TypeName="ERD.PaymentShipment" StoreEntitySet="Payments">
+      <EndProperty Name="Shipment">
+        <ScalarProperty Name="Id" ColumnName="Shipment_Id" />
+      </EndProperty>
+      <EndProperty Name="Payment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

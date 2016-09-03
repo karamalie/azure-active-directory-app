@@ -31,5 +31,6 @@ namespace DdacAssignment
         public virtual DbSet<Ship> Ships { get; set; }
         public virtual DbSet<Yard> Yards { get; set; }
         public virtual DbSet<Fleet> Fleets { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
     }
 }

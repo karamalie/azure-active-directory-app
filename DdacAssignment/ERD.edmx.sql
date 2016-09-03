@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/31/2016 12:44:12
+-- Date Created: 09/03/2016 17:22:15
 -- Generated from EDMX file: F:\VSprojects\DdacAssignment\DdacAssignment\ERD.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,50 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ShipmentCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Shipments] DROP CONSTRAINT [FK_ShipmentCustomer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ShipmentYard]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Shipments] DROP CONSTRAINT [FK_ShipmentYard];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ShipmentShip]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Shipments] DROP CONSTRAINT [FK_ShipmentShip];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ShipSchedule]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Schedules] DROP CONSTRAINT [FK_ShipSchedule];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FleetShip]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Ships] DROP CONSTRAINT [FK_FleetShip];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomerPayment]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Payments] DROP CONSTRAINT [FK_CustomerPayment];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Schedules]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Schedules];
+GO
+IF OBJECT_ID(N'[dbo].[Customers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Customers];
+GO
+IF OBJECT_ID(N'[dbo].[Shipments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Shipments];
+GO
+IF OBJECT_ID(N'[dbo].[Ships]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Ships];
+GO
+IF OBJECT_ID(N'[dbo].[Yards]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Yards];
+GO
+IF OBJECT_ID(N'[dbo].[Fleets]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Fleets];
+GO
+IF OBJECT_ID(N'[dbo].[Payments]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Payments];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -53,10 +92,11 @@ CREATE TABLE [dbo].[Shipments] (
     [insured_value] int  NOT NULL,
     [weight] int  NOT NULL,
     [destination] nvarchar(max)  NOT NULL,
-    [status] int  NOT NULL,
+    [status] nvarchar(max)  NOT NULL,
     [CustomerId] int  NOT NULL,
     [YardId] int  NOT NULL,
-    [ShipId] int  NOT NULL
+    [ShipId] int  NOT NULL,
+    [payment_status] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -81,6 +121,19 @@ GO
 CREATE TABLE [dbo].[Fleets] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [fleet_name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Payments'
+CREATE TABLE [dbo].[Payments] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Amount] nvarchar(max)  NOT NULL,
+    [type] nvarchar(max)  NOT NULL,
+    [cardholder_name] nvarchar(max)  NOT NULL,
+    [card_number] nvarchar(max)  NOT NULL,
+    [expiration_date] nvarchar(max)  NOT NULL,
+    [card_cvv] nvarchar(max)  NOT NULL,
+    [Shipment_Id] int  NOT NULL
 );
 GO
 
@@ -121,6 +174,12 @@ GO
 -- Creating primary key on [Id] in table 'Fleets'
 ALTER TABLE [dbo].[Fleets]
 ADD CONSTRAINT [PK_Fleets]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Payments'
+ALTER TABLE [dbo].[Payments]
+ADD CONSTRAINT [PK_Payments]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -201,6 +260,21 @@ GO
 CREATE INDEX [IX_FK_FleetShip]
 ON [dbo].[Ships]
     ([FleetId]);
+GO
+
+-- Creating foreign key on [Shipment_Id] in table 'Payments'
+ALTER TABLE [dbo].[Payments]
+ADD CONSTRAINT [FK_PaymentShipment]
+    FOREIGN KEY ([Shipment_Id])
+    REFERENCES [dbo].[Shipments]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PaymentShipment'
+CREATE INDEX [IX_FK_PaymentShipment]
+ON [dbo].[Payments]
+    ([Shipment_Id]);
 GO
 
 -- --------------------------------------------------
