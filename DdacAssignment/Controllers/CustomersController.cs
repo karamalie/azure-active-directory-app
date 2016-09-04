@@ -17,7 +17,7 @@ namespace DdacAssignment.Controllers
         private ERDContainer db = new ERDContainer();
 
         // GET: Customers
-        [Authorize(Roles ="Agent")]
+     
         public ActionResult Index()
         {
             return View(db.Customers.ToList());

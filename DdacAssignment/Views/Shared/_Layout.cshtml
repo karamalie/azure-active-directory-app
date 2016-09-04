@@ -26,11 +26,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.IsInRole("Agent"))
-                    {
-                        <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
-                    }
-                      
+                  
+                        <li>@Html.ActionLink("Customers", "Index", "Customers")</li>                  
                         <li>@Html.ActionLink("Shipments", "Index", "Shipments")</li>
                         <li>@Html.ActionLink("Schedules", "Index", "Schedules")</li>
                         <li>@Html.ActionLink("Payments", "Index", "Payments")</li>                                                         
