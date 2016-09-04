@@ -10,7 +10,7 @@ using DdacAssignment;
 
 namespace DdacAssignment.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Agent")]
     public class CustomersController : Controller
     {   
       
