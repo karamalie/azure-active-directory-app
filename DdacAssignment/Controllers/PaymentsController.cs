@@ -10,7 +10,7 @@ using DdacAssignment;
 
 namespace DdacAssignment.Controllers
 {
-    [Authorize]
+
     public class PaymentsController : Controller
     {
         private ERDContainer db = new ERDContainer();
