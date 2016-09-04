@@ -10,13 +10,14 @@ using DdacAssignment;
 
 namespace DdacAssignment.Controllers
 {
-  
+    [Authorize]
     public class CustomersController : Controller
     {   
       
         private ERDContainer db = new ERDContainer();
 
         // GET: Customers
+        
         public ActionResult Index()
         {
             return View(db.Customers.ToList());
