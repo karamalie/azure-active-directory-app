@@ -10,6 +10,7 @@ using DdacAssignment;
 
 namespace DdacAssignment.Controllers
 {
+    [Authorize]
     public class ShipsController : Controller
     {
         private ERDContainer db = new ERDContainer();

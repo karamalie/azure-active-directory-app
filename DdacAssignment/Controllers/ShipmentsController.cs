@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 
 namespace DdacAssignment.Controllers
 {
+    [Authorize]
     public class ShipmentsController : Controller
     {
         private ERDContainer db = new ERDContainer();
